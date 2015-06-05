@@ -31,12 +31,12 @@ This work is part of the research performed at the [Rodriguez-Villegas Lab, Impe
 This is the simplest method to get started with the PhysioNet Sleep EDF Expanded database. 
 
 ```matlab
-initialSetupEDFx(download_dir)
+initialSetupEDFx(destination_directory)
 ```
 
 * `destination_directory` is an optional argument to specify location for download
 
-This function is needed only for the first time to get all the needed data and set up your working area with all the tests arranged in separate folders from where they can be loaded. Each test will be in a sub-directory inside the `download_dir` and each `test_dir` will have the source edf file, `matlab` folder with signals in .m files and an `info` folder with sampling frequency, list of channels and other annotations.
+This function is needed only for the first time to get all the needed data and set up your working area with all the tests arranged in separate folders from where they can be loaded. Each test will be in a sub-directory inside the `destination_directory` and each newly created `test_directory` will have the source edf file, `matlab` folder with signals in .m files and an `info` folder with sampling frequency, list of channels and other annotations.
 
 ### Loading a test
 
