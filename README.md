@@ -5,6 +5,19 @@ A toolbox to download, extract, load and view signals from the PhysioNet Sleep E
 
 This work is part of the research performed at the [Rodriguez-Villegas Lab, Imperial College London, UK](http://www.imperial.ac.uk/rodriguez-villegas-lab).
 
+##Citations##
+
+Please cite the following publication when using this toolbox:
+
+For this toolbox:
+*Imtiaz, S.A.; Rodriguez-Villegas, E., "An Open-source Toolbox For Standardized Use Of PhysioNet Sleep EDF Expanded Database," in Engineering in Medicine and Biology Society (EMBC), 2015 37th Annual International Conference of the IEEE, 2015*
+
+Standard PhysioNet citation:
+*Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. Circulation 101(23):e215-e220 [Circulation Electronic Pages; http://circ.ahajournals.org/cgi/content/full/101/23/e215]; 2000* 
+
+EEGLAB citation for EDF files conversion:
+*Arnaud Delorme, Scott Makeig, EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis, Journal of Neuroscience Methods, Volume 134, Issue 1, 15 March 2004, Pages 9-21*
+
 
 ##Features##
 
