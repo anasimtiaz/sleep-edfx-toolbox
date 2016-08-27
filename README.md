@@ -17,9 +17,9 @@ Standard PhysioNet citation:
 
 *Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. Circulation 101(23):e215-e220 [Circulation Electronic Pages; http://circ.ahajournals.org/cgi/content/full/101/23/e215]; 2000* 
 
-EEGLAB citation for EDF files conversion:
+BioSig citation for EDF files conversion:
 
-*Arnaud Delorme, Scott Makeig, EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis, Journal of Neuroscience Methods, Volume 134, Issue 1, 15 March 2004, Pages 9-21*
+*Vidaurre, Carmen, Tilmann H. Sander, and Alois Schlögl. "BioSig: the free and open source software library for biomedical signal processing." Computational intelligence and neuroscience 2011 (2011).*
 
 
 ##Features##
@@ -36,7 +36,7 @@ EEGLAB citation for EDF files conversion:
 
 ## Installation
 * Download or clone the repository and add it to your path
-* **IMPORTANT**: For EDF to Matlab conversion, [EEGLAB](http://sccn.ucsd.edu/eeglab/) is required and its installation must be on the search path
+* **IMPORTANT**: For EDF to Matlab conversion, [BioSig Toolbox](http://biosig.sourceforge.net/download.html) is required and its installation must be on the search path. Just download the MATLAB version and run the installer.
 
 
 
@@ -139,7 +139,7 @@ convertEDFxToMat(saved_file, status)
 * `saved_file` is the full path of the downloaded EDF file 
 * `status` corresponds to the success/failure of each file (it's download status) and should not be 0 which indicates a failed download when used in the workflow
 * The converted files are stored within the test directory
-* This function requires the presence of [EEGLAB](http://sccn.ucsd.edu/eeglab/) toolbox available on the search path
+* This function requires the presence of [BioSig Toolbox](http://biosig.sourceforge.net/) toolbox available on the search path
 
 
 ##### Process hypnogram annotations
