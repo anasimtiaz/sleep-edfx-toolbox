@@ -7,7 +7,7 @@ function convertEDFxToMat( saved_file, status )
 %   EEGLAB toolbox.
 
 
-% Check for EEGLAB toolbox
+% Check for EEGLAB toolbox (BioSig plugnin is needed too! [Hassan])
 if exist('eeglab') ~=2
     error('EEGLAB does not exist or not added to search path')
 end
@@ -26,14 +26,16 @@ cd(test_dir);
 current_dir = test_dir;
 
 % Folders to save files in
-mkdir(current_dir, 'matlab'); % Create folder to store matlab variables
-mkdir(current_dir, 'info'); % Create folder to store additional info
+mkdir('matlab'); % Create folder to store matlab variables
+if exist('info', 'dir') == 0,
+    mkdir('info'); % Create folder to store additional info if needed
+end
 
 % Get the edf file by checking for extension
 edf_file_name = dir([file_name file_extension]);
 
-
-% Load edf file in Matlab - requires EEGLAB
+% Load edf file in Matlab - requires BioSig toolbox
+% http://biosig.sourceforge.net/download.html
 [edf, header] = sload(edf_file_name.name);
 
 fprintf('Converting file %s ......\n', edf_file_name.name);
