@@ -36,7 +36,7 @@ end
 %current_dir = pwd;
 
 % URL to download data from
-annotations_url = 'https://workspace.imperial.ac.uk/rodriguez-villegas-lab/Public/edfx-toolbox-files/';
+annotations_url = 'http://anasimtiaz.com/edfx-toolbox-files/';
 % Regular expression to match
 regexp_string = '\[t\](........)\[\\t\]';
 
