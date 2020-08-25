@@ -53,19 +53,6 @@ for i=1:length(edf_files)
     % extract name of edf file
     this_file = edf_files{i}(2:end-1);
     folder_name = this_file(1:end-8);
-         
-    % create folder for download
-    if exist(download_dir, 'dir') ~= 0
-        mkdir(download_dir, folder_name);
-    end
-    path_of_file = fullfile(download_dir, folder_name, this_file);
-    
-    % url of the edf file to download
-    if strcmp(thisFile(1:2), 'SC')
-        url_of_file = [edfx_url_SC this_file];
-    else
-        url_of_file = [edfx_url_ST this_file];
-    end
     
     % Check if files is already downloaded (to avoid re-downloading)
     if exist(fullfile(download_dir, folder_name), 'dir') ~= 0
@@ -76,6 +63,20 @@ for i=1:length(edf_files)
         status{i} = 1;
     else
         % download the file
+        
+        % create folder for download
+        if exist(download_dir, 'dir') ~= 0
+            mkdir(download_dir, folder_name);
+        end
+        path_of_file = fullfile(download_dir, folder_name, this_file);
+    
+        % url of the edf file to download
+        if strcmp(this_file(1:2), 'SC')
+            url_of_file = [edfx_url_SC this_file];
+        else
+            url_of_file = [edfx_url_ST this_file];
+        end
+        
         fprintf('Downloading file: %s (%d of %d)\n', this_file, i, length(edf_files));
         [saved_file{i}, status{i}] = urlwrite(url_of_file,path_of_file);
     end
