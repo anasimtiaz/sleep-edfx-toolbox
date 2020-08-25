@@ -1,10 +1,26 @@
-function initialSetupEDFx(download_dir)
+function initialSetupEDFx( varargin )
 %initialSetupEDFx Convenience function to download all EDF and related data
 %   initialSetupEDFx(destination_dir) downloads EDF data and annotations in
 %   the destination directory, converts the data to Matlab file formats and
 %   extractions the hypnogram from the annotations file
 
-
+% Check if arguments entered by the user
+if ~isempty(varargin)
+    % Check if more than one argument entered by the user
+    if length(varargin) > 1
+        error('Unknown arguments - the function takes in only one optional argument')
+    else
+        % Create a directory if it doesn't exist
+        download_dir = varargin{1};
+        if exist(download_dir, 'dir') == 0
+            fprintf('Destination directory does not exist. Creating a new directory\n\n');
+            mkdir(download_dir)
+        end
+    end
+else
+    % Use current directory as the download directory
+    download_dir = pwd;
+end
 
 
 % Download EDFx Data
