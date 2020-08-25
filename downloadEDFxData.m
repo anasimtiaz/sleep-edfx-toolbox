@@ -30,16 +30,18 @@ end
 %current_dir = pwd;
 
 % PhysioNet URL for parsing to get test names
-edfx_url = 'http://physionet.org/physiobank/database/sleep-edfx/';
+edfx_url_SC = 'https://physionet.org/content/sleep-edfx/1.0.0/sleep-cassette/';
+edfx_url_ST = 'https://physionet.org/content/sleep-edfx/1.0.0/sleep-telemetry/';
 
 % Regular expression to get list of all edf files from the html source
-regexp_string = '\"[A-Z]+[\d]+[A-Z\d]+-PSG.edf\"';
+regexp_string = '\/[A-Z]+[\d]+[A-Z\d]+-PSG.edf\"';
 
 % Read the url
-edfx_webpage_source = urlread(edfx_url);
+edfx_webpage_source_SC = urlread(edfx_url_SC);
+edfx_webpage_source_ST = urlread(edfx_url_ST);
 
 % Get list of edf files by regex matching
-edf_files = regexp(edfx_webpage_source,regexp_string,'match');
+edf_files = [regexp(edfx_webpage_source_SC,regexp_string,'match'), regexp(edfx_webpage_source_ST,regexp_string,'match')];
 
 % Create placeholders to store list of saved files and their status
 saved_file = cell(length(edf_files):1);
@@ -53,13 +55,17 @@ for i=1:length(edf_files)
     folder_name = this_file(1:end-8);
          
     % create folder for download
-    if exist(download_dir, 'dir') ~= 0,
+    if exist(download_dir, 'dir') ~= 0
         mkdir(download_dir, folder_name);
     end
     path_of_file = fullfile(download_dir, folder_name, this_file);
     
     % url of the edf file to download
-    url_of_file = [edfx_url this_file];
+    if strcmp(thisFile(1:2), 'SC')
+        url_of_file = [edfx_url_SC this_file];
+    else
+        url_of_file = [edfx_url_ST this_file];
+    end
     
     % Check if files is already downloaded (to avoid re-downloading)
     if exist(fullfile(download_dir, folder_name), 'dir') ~= 0
