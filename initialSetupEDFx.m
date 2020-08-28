@@ -24,7 +24,7 @@ end
 
 
 % Download EDFx Data
-[saved_file, status] = downloadEDFxData(download_dir);
+saved_file = downloadEDFxData(download_dir);
 
 %DEBUG REPORT
 %disp('DR: Completed: downloadEDFxData'); pause;

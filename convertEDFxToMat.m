@@ -1,4 +1,4 @@
-function convertEDFxToMat( saved_file, status )
+slfunction convertEDFxToMat( saved_file, status )
 %convertEDFxToMat Convert EDF file to .mat files
 %   convertEDFxToMat(saved_file, status) converts the EDF file saved_file
 %   to separate Matlab compatible files for each channel of data and
@@ -27,7 +27,7 @@ current_dir = test_dir;
 
 % Folders to save files in
 mkdir('matlab'); % Create folder to store matlab variables
-if exist('info', 'dir') == 0,
+if exist('info', 'dir') == 0
     mkdir('info'); % Create folder to store additional info if needed
 end
 

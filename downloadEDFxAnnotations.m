@@ -1,96 +1,30 @@
-function downloadEDFxAnnotations( varargin )
-%downloadEDFxAnnotations Download annotation files from Imperial web server
-%   downloadEDFxAnnotations( ) downloads data in the current directory
-%   downloadEDFxAnnotations(destination_directory) downloads data in the destination directory
+function [saved_file, status] = downloadEDFxAnnotations( varargin )
+%downloadEDFxAnnotations Download EDF files from PhysioNet
+%   [saved_file, status] = downloadEDFxAnnotations( ) downloads data in the current directory
+%   [saved_file, status] = downloadEDFxAnnotations(destination_directory) downloads data in the destination directory
+%
+% saved_file is a list of all files downloaded and status corresponds to their success/failure
 
 
-% List of files to download
-list_of_files = {
-    'hyp_start_time.txt';
-    'lights_off_time.txt';
-    'lights_on_time.txt';
-    'rec_start_time.txt';
-    'rec_stop_time.txt'};
+fprintf('Downloading ANNOTATIONS files\n\n');
 
-
-
-% Check if any argument is provided, and if it is, there is only one
-% otherwise use the current directory to download data in to
+% Check if arguments entered by the user
 if ~isempty(varargin)
+    % Check if more than one argument entered by the user
     if length(varargin) > 1
         error('Unknown arguments - the function takes in only one optional argument')
     else
+        % Create a directory if it doesn't exist
         download_dir = varargin{1};
+        if exist(download_dir, 'dir') == 0
+            fprintf('Destination directory does not exist. Creating a new directory\n\n');
+            mkdir(download_dir)
+        end
     end
 else
+    % Use current directory as the download directory
     download_dir = pwd;
 end
 
-% Create a destination directory if it doesn't exist
-if exist(download_dir, 'dir') ~= 7
-    fprintf('WARNING: Download directory does not exist. Creating new directory ...\n\n');
-    mkdir(download_dir);
-end
-
-
-%current_dir = pwd;
-
-% URL to download data from
-annotations_url = 'http://anasimtiaz.com/edfx-toolbox-files/';
-% Regular expression to match
-regexp_string = '\[t\](........)\[\\t\]';
-
-% Read list of tests from the source url
-list_url = [annotations_url 'list_of_tests.txt'];
-edfx_webpage_source = urlread(list_url);
-test_names = regexp(edfx_webpage_source,regexp_string,'match');
-
-
-% Initialise variable for success/failure counts
-sc=0;
-fc=0;
-
-% Loop through each test to get files
-for i=1:length(test_names)
-    
-    % Add the annotation file specific for each test in the list
-    this_test = test_names{i}(4:end-4);
-    folder_name = this_test;
-    hyp_file = [this_test '.txt'];
-    files_to_download = [list_of_files; {hyp_file}];
-    
-    % Check if test directory exists, create if it doesn't
-    test_dir = fullfile(download_dir, folder_name);
-    if exist(test_dir,'dir') ~= 7 
-        mkdir(download_dir, folder_name);
-    end
-    
-    % Check if info sub-directory exists inside test, create if it doesn't
-    info_test_dir = fullfile(test_dir, 'info');
-    if exist(info_test_dir,'dir') ~= 7
-        mkdir(info_test_dir);
-    end
-    
-    % Download each file from the file_to_download list and display
-    % progress and location of saved file
-    for f=1:length(files_to_download)
-        path_of_file = fullfile(info_test_dir, files_to_download{f});
-        url_of_file = [annotations_url this_test '/info/' files_to_download{f}];
-        fprintf('Downloading: %s for test %s\n', files_to_download{f}, this_test);
-        [saved_file, status] = urlwrite(url_of_file,path_of_file);
-        if status
-            fprintf('File saved: %s ... OK\n', saved_file);
-            sc=sc+1;
-        else
-            fprintf('ERROR DOWNLOADING FILE %s for test %s\n', files_to_download{f}, this_test);
-            fc=fc+1;
-        end
-    end
-end
-
-% Print final summary of downloads
-fprintf('\nDownload complete!\n')
-fprintf('\n%d files successfully downloaded ... %d files failed to download\n', sc, fc);
-
-end
+[saved_file, status] = downloadEDFxFiles(download_dir, 'h');
 
