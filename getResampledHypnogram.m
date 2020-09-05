@@ -28,6 +28,7 @@ num_hypnogram(hypnogram=='4')=4;
 num_hypnogram(hypnogram=='R')=7;
 num_hypnogram(hypnogram=='M')=-1;
 num_hypnogram(hypnogram=='X')=0;
+num_hypnogram(hypnogram=='?')=0;
 
 % Container for the new larger hypnogram vector
 resampled_hypnogram = zeros(length(num_hypnogram)*epoch_size*f_samp, 1);
