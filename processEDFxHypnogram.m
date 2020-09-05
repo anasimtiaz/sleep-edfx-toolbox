@@ -1,42 +1,34 @@
-function [hypnogram] = processEDFxHypnogram( hyp_file )
-%processEDFxHypnogram Reads the annotation file to produce a hypnogram
-%   [hypnogram] = processEDFxHypnogram(hyp_file) uses the annotation file
-%   downloaded to produce a per-epoch hypnogram with the following labels:
-%   W, 1, 2, 3, 4, R, M
+function [hypnogram] = processEDFxHypnogram( annotations )
+%processEDFxHypnogram Reads the annotations from hypnogram edf file to 
+%   produce a hypnogram in matlab format with a value every 30s.
+%   [hypnogram] = processEDFxHypnogram(annotations) uses the annotations
+%   from the downloaded edf to produce a per-epoch hypnogram with the 
+%   following labels: W, 1, 2, 3, 4, R, M
 
-
-
-% Regular expression search string
-rexp = '([SM][\w\?]+\s\w+:\s\d+)';
-%st_time_rexp = '(\[\d+:\d+:\d+.\d+)?';
 
 % Define epoch size
 epoch_size = 30;
 
-% Read the annotation file and search for strings that have time and sleep
-% stage information
-hyp_read = fileread(hyp_file);
-[h1, h2] = regexp(hyp_read, rexp);
-
 % Initialize containers for hypnogram value and duration
-hyp_v = char.empty(length(h1),0); %value
-hyp_d = zeros(size(h1)); %duration
+hyp_v = char.empty(length(annotations),0); %value
+hyp_d = zeros(size(annotations)); %duration
 
 % Extract sleep stage and the duration for which it lasts
-for h=1:length(h1)
-    hyp_string = (hyp_read(h1(h):h2(h)));
-    C = textscan(hyp_string, '%s', 'delimiter', ' ');
-    C=C{1};
+for h=1:length(annotations)
+    hyp_string = annotations{h};
+    split_stage_hyp_string = split(hyp_string);
+    sleep_stage = split_stage_hyp_string{end}(1);
     
     % fix for movement time
-    if C{1}(end)=='e'
-        hyp_v(h)='M';
+    if sleep_stage == 'e'
+        hyp_v(h) = 'M';
     else
-        hyp_v(h) = C{1}(end);
+        hyp_v(h) = sleep_stage;
     end
     
     % save hyp durations
-    hyp_d(h) = str2num(C{3});
+    split_hyp_string = split(hyp_string, ["", "", " "]);
+    hyp_d(h) = str2num(split_hyp_string{2});
 end
 
 % Total (round) number of epochs

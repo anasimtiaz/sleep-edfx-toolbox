@@ -50,7 +50,7 @@ for i=1:length(edf_files)
         % don't download the file if it exist
         fprintf('File already exist file: %s (%d of %d)\n', this_file, i, length(edf_files));
         fprintf('If you need to re-download the file, delete directory: %s \n', fullfile(download_dir, folder_name));
-        saved_file{i} = path_of_file;
+        saved_file{i} = fullfile(download_dir, folder_name, this_file);
         status{i} = 1;
     else
         % download the file

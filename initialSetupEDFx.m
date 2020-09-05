@@ -24,7 +24,7 @@ end
 
 
 % Download EDFx Data
-saved_file = downloadEDFxData(download_dir);
+downloadEDFxData(download_dir);
 
 %DEBUG REPORT
 %disp('DR: Completed: downloadEDFxData'); pause;
@@ -32,29 +32,19 @@ saved_file = downloadEDFxData(download_dir);
 % Download hypnogram + annotations
 downloadEDFxAnnotations(download_dir);
 
+
 %DEBUG REPORT
 %disp('DR: Completed: downloadEDFxAnnotations'); pause;
 
+% Convert xls Data to use for later
+lights_off_times = convertXLSData(download_dir);
+
 % Convert EDFx Data To Matlab Format
-for i=1:length(saved_file)
-    convertEDFxToMat(saved_file{i}, status{i});
+test_dirs = dir(fullfile(download_dir, '*S*'));
+test_dirs = test_dirs([test_dirs.isdir]);
+for i=1:length(test_dirs)
+    convertEDFxToMat(test_dirs(i).name, lights_off_times(test_dirs(i).name));
 end
 
-%DEBUG REPORT
-%disp('DR: Completed: convertEDFxToMat'); pause;
-
-% Process hypnogram/annotations
-for i=1:length(saved_file)
-    [test_dir,file_name,~] = fileparts(saved_file{i});
-    hyp_file = fullfile(test_dir, 'info', [file_name(1:end-4) '.txt']);
-    hypnogram = processEDFxHypnogram( hyp_file );
-    % Save hypnogram
-    hypnogram_path = fullfile(test_dir, 'matlab', 'hypnogram.mat');
-    save(hypnogram_path, 'hypnogram')
-end
-
-
-%DEBUG REPORT
-%disp('DR: Completed: processEDFxHypnogram'); pause;
 
 end
