@@ -1,11 +1,11 @@
 Sleep EDFx Toolbox
 ==================
 
-A toolbox to download, extract, load and view signals from the PhysioNet Sleep EDF Expanded Database.
+A toolbox to download, extract, load and view signals from the PhysioNet Sleep EDF Expanded Database (all 197 subjects).
 
-This work is part of the research performed at the [Rodriguez-Villegas Lab, Imperial College London, UK](http://www.imperial.ac.uk/rodriguez-villegas-lab).
+This work is part of the research performed at the [Wearable Technologies Lab, Imperial College London, UK](https://www.imperial.ac.uk/wearable-technologies).
 
-##Citations##
+## Citations
 
 Please cite the following publication when using this toolbox:
 
@@ -15,16 +15,16 @@ For this toolbox:
 
 Standard PhysioNet citation:
 
-*Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. Circulation 101(23):e215-e220 [Circulation Electronic Pages; http://circ.ahajournals.org/cgi/content/full/101/23/e215]; 2000* 
+*Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. Circulation 101(23):e215-e220 [Circulation Electronic Pages; http://circ.ahajournals.org/cgi/content/full/101/23/e215]; 2000*
 
 BioSig citation for EDF files conversion:
 
-*Vidaurre, Carmen, Tilmann H. Sander, and Alois Schlögl. "BioSig: the free and open source software library for biomedical signal processing." Computational intelligence and neuroscience 2011 (2011).*
+*Vidaurre, Carmen, Tilmann H. Sander, and Alois Schlï¿½gl. "BioSig: the free and open source software library for biomedical signal processing." Computational intelligence and neuroscience 2011 (2011).*
 
 
-##Features##
+## Features
 
-* Download the complete set of 61 recordings 
+* Download the complete set of 197 recordings
 * Extract the EDF files and convert them to Matlab signals
 * Get Matlab-compatible hypnogram from the annotations
 * Extract overnight sleep data and hypnogram from consistent start and end times
@@ -36,23 +36,29 @@ BioSig citation for EDF files conversion:
 
 ## Installation
 * Download or clone the repository and add it to your path
-* **IMPORTANT**: For EDF to Matlab conversion, [BioSig Toolbox](http://biosig.sourceforge.net/download.html) is required and its installation must be on the search path. Just download the MATLAB version and run the installer.
+* **IMPORTANT**: For EDF to Matlab conversion, [BioSig Toolbox](http://biosig.sourceforge.net/download.html) is required and its installation must be on the search path. Just download the MATLAB version and run the installer. Alternatively install [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) and BioSig Plugin from within EEGLAB.
 
 
 
-##Usage##
+## Usage
+
 
 ### All-in-one: download EDF files, annotations, extract data and process hypnograms
 
-This is the simplest method to get started with the PhysioNet Sleep EDF Expanded database. 
+This is the simplest method to get started with the PhysioNet Sleep EDF Expanded database. The `initialSetupEDFx` can be used in the following three ways.
 
 ```matlab
+initialSetupEDFx()
 initialSetupEDFx(destination_directory)
+initialSetupEDFx(destination_directory, source_directory)
 ```
 
-* `destination_directory` is an optional argument to specify location for download
+* `destination_directory` is an optional argument to specify location for download and setting up the workspace.
+* `source_directory` is an optional argument (but requires the `destination_directory` when used) in case the database has been downloaded externally.
 
-This function is needed only for the first time to get all the needed data and set up your working area with all the tests arranged in separate folders from where they can be loaded. Each test will be in a sub-directory inside the `destination_directory` and each newly created `test_directory` will have the source edf file, `matlab` folder with signals in .m files and an `info` folder with sampling frequency, list of channels and other annotations.
+This function is needed only for the first time to get all the needed data and set up your working area with all the tests arranged in separate folders from where they can be loaded. Each test will be in a sub-directory inside the `destination_directory` and each newly created `test_directory` will have the source edf files, `matlab` folder with signals and hypnogram in .m files and an `info` folder with sampling frequency, list of channels, and other annotations.
+
+**IMPORTANT:** Downloading data from PhysioNet website is often slow, hence it is recommended to use the Google Cloud Storage Browser [here](https://storage.cloud.google.com/sleep-edfx-1.0.0.physionet.org/sleep-edf-database-expanded-1.0.0.zip?_ga=2.107388354.-1572727081.1587460588). Unzip this file and provide this as the `source_directory` argument if using this route.
 
 ### Loading a test
 
@@ -108,47 +114,52 @@ computeEDFxPerformance(test_hypnogram, ref_hypnogram, classification_mode)
 
 The following functions are bundled in the `initialSetupEDFx()` function but can be called upon separately if needed.
 
-##### Downloading EDF files for all tests
+##### Downloading EDF data files for all tests
 
 ```matlab
 [saved_file, status] = downloadEDFxData( )
 [saved_file, status] = downloadEDFxData(destination_directory)
+[saved_file, status] = downloadEDFxData(destination_directory, source_directory)
 ```
 
-* `saved_file` is the full path of the downloaded EDF file 
+* `saved_file` is the full path of the downloaded EDF file
 * `status` corresponds to the success/failure of each file (it's download status)
 * `destination_directory` is an optional argument to specify location for download
-
+* `source_directory` is an optional argument (but requires the `destination_directory` when used) in case the database has been downloaded externally.
 
 ##### Downloading annotations for all tests
 
 ```matlab
-downloadEDFxAnnotations( )
-downloadEDFxAnnotations(destination_directory)
+[saved_file, status] = downloadEDFxAnnotations( )
+[saved_file, status] = downloadEDFxAnnotations(destination_directory)
+[saved_file, status] = downloadEDFxAnnotations(destination_directory, source_directory)
 ```
 
+* `saved_file` is the full path of the downloaded EDF file
+* `status` corresponds to the success/failure of each file (it's download status)
 * `destination_directory` is an optional argument to specify location for download
+* `source_directory` is an optional argument (but requires the `destination_directory` when used) in case the database has been downloaded externally.
 
 
 ##### Convert EDF files to Matlab
 
 ```matlab
-convertEDFxToMat(saved_file, status)
+convertEDFxToMat(test_dir, light_off_time)
 ```
 
-* `saved_file` is the full path of the downloaded EDF file 
-* `status` corresponds to the success/failure of each file (it's download status) and should not be 0 which indicates a failed download when used in the workflow
+* `test_dir` is the path to the test directory with EDF files
+* `light_off_time` corresponds to the lights_off_time for the test to be saved in a separate file
 * The converted files are stored within the test directory
-* This function requires the presence of [BioSig Toolbox](http://biosig.sourceforge.net/) toolbox available on the search path
+* This function requires the presence of [BioSig Toolbox](http://biosig.sourceforge.net/) directly or through [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) available on the search path
 
 
 ##### Process hypnogram annotations
 
 ```matlab
-hypnogram = processEDFxHypnogram(hyp_file)
+hypnogram = processEDFxHypnogram(annotations)
 ```
 
-* `hyp_file` is the annotations file with all sleep stages and their corresponding duration obtained from PhysioNet
+* `annotations` is the array of annotations from the hypnogram EDF file with all sleep stages and their corresponding
 * `hypnogram` contains a Matlab vector for labels corresponding to sleep stages for each 30-second epoch
 
 
@@ -164,10 +175,9 @@ Submit pull requests
 
 ## Contact
 
-* Visit our research group website to know more about our work: [http://www.imperial.ac.uk/rodriguez-villegas-lab](http://www.imperial.ac.uk/rodriguez-villegas-lab)
+* Visit our research group website to know more about our work: [Wearable Technologies Lab](https://www.imperial.ac.uk/wearable-technologies)
 * Contact me at [anas.imtiaz@imperial.ac.uk](mailto:anas.imtiaz@imperial.ac.uk)
 
 ## License
 
-&copy; Syed Anas Imtiaz | 2015 | MIT License – [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
-
+&copy; Syed Anas Imtiaz | 2015-2020 | MIT License ï¿½ [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
