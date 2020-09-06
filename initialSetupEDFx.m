@@ -7,44 +7,57 @@ function initialSetupEDFx( varargin )
 % Check if arguments entered by the user
 if ~isempty(varargin)
     % Check if more than one argument entered by the user
-    if length(varargin) > 1
-        error('Unknown arguments - the function takes in only one optional argument')
+    if length(varargin) > 2
+        error('Unknown arguments - the function takes in only two optional arguments')
+    elseif length(varargin) == 2
+        destination_dir = varargin{1};
+        if exist(destination_dir, 'dir') == 0
+            fprintf('Destination directory does not exist. Creating a new directory\n\n');
+            mkdir(destination_dir)
+        end
+        src_dir = varargin{2};
+        if exist(destination_dir, 'dir') == 0
+            error('Source directory with data does not exist. Please check the source path.')
+        end
     else
         % Create a directory if it doesn't exist
-        download_dir = varargin{1};
-        if exist(download_dir, 'dir') == 0
+        destination_dir = varargin{1};
+        if exist(destination_dir, 'dir') == 0
             fprintf('Destination directory does not exist. Creating a new directory\n\n');
-            mkdir(download_dir)
+            mkdir(destination_dir)
         end
     end
 else
     % Use current directory as the download directory
-    download_dir = pwd;
+    destination_dir = pwd;
 end
 
 addpath(pwd);
 
 % Download EDFx Data
-downloadEDFxData(download_dir);
+if length(varargin) == 2
+    downloadEDFxData(destination_dir, src_dir);
+else
+    downloadEDFxData(destination_dir);
+end
 
-%DEBUG REPORT
-%disp('DR: Completed: downloadEDFxData'); pause;
+
 
 % Download hypnogram + annotations
-downloadEDFxAnnotations(download_dir);
-
-
-%DEBUG REPORT
-%disp('DR: Completed: downloadEDFxAnnotations'); pause;
+if length(varargin) == 2
+    downloadEDFxAnnotations(destination_dir, src_dir);
+else
+    downloadEDFxAnnotations(destination_dir);
+end
 
 % Convert xls Data to use for later
-lights_off_times = convertXLSData(download_dir);
+lights_off_times = convertXLSData(destination_dir);
 
 % Convert EDFx Data To Matlab Format
-test_dirs = dir(fullfile(download_dir, '*S*'));
+test_dirs = dir(fullfile(destination_dir, '*S*'));
 test_dirs = test_dirs([test_dirs.isdir]);
 for i=1:length(test_dirs)
-    convertEDFxToMat(fullfile(download_dir, test_dirs(i).name), lights_off_times(test_dirs(i).name));
+    convertEDFxToMat(fullfile(destination_dir, test_dirs(i).name), lights_off_times(test_dirs(i).name));
 end
 
 

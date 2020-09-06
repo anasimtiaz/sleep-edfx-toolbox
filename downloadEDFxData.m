@@ -11,19 +11,32 @@ fprintf('Downloading DATA files\n\n');
 % Check if arguments entered by the user
 if ~isempty(varargin)
     % Check if more than one argument entered by the user
-    if length(varargin) > 1
-        error('Unknown arguments - the function takes in only one optional argument')
+    if length(varargin) > 2
+        error('Unknown arguments - the function takes in only two optional arguments')
+    elseif length(varargin) == 2
+        % Create a directory if it doesn't exist
+        destination_dir = varargin{1};
+        if exist(destination_dir, 'dir') == 0
+            fprintf('Destination directory does not exist. Creating a new directory\n\n');
+            mkdir(destination_dir)
+        end
+        src_dir = varargin{2};
+        if exist(destination_dir, 'dir') == 0
+            error('Source directory with data does not exist. Please check the source path.')
+        end
     else
         % Create a directory if it doesn't exist
-        download_dir = varargin{1};
-        if exist(download_dir, 'dir') == 0
+        destination_dir = varargin{1};
+        if exist(destination_dir, 'dir') == 0
             fprintf('Destination directory does not exist. Creating a new directory\n\n');
-            mkdir(download_dir)
+            mkdir(destination_dir)
         end
+        src_dir = '';
     end
 else
     % Use current directory as the download directory
-    download_dir = pwd;
+    destination_dir = pwd;
+    src_dir = '';
 end
 
-[saved_file, status] = downloadEDFxFiles(download_dir, 'd');
+[saved_file, status] = downloadEDFxFiles(destination_dir, src_dir, 'd');
