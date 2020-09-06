@@ -1,8 +1,15 @@
 function initialSetupEDFx( varargin )
 %initialSetupEDFx Convenience function to download all EDF and related data
-%   initialSetupEDFx(destination_dir) downloads EDF data and annotations in
-%   the destination directory, converts the data to Matlab file formats and
-%   extractions the hypnogram from the annotations file
+%   initialSetupEDFx(destination_dir) downloads EDF data and annotations 
+%   from PhysioNet in the destination directory, converts the data to 
+%   Matlab file formats and extracts the hypnogram from the annotations 
+%   file.
+%   initialSetupEDFx(destination_dir, src_dir) copies all EDF and related 
+%   data from the source test directory to the destination directory
+%   extracting the data and hypnogram files.
+%   initialSetupEDFx() downloads data from PhysioNet and uses the current
+%   directory as the destionation directory.
+
 
 % Check if arguments entered by the user
 if ~isempty(varargin)

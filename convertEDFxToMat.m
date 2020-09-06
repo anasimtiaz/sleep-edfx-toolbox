@@ -1,10 +1,11 @@
 function convertEDFxToMat( test_dir, l_off_time )
-%convertEDFxToMat Convert EDF file to .mat files
-%   convertEDFxToMat(saved_file, status) converts the EDF file saved_file
-%   to separate Matlab compatible files for each channel of data and
-%   retrieves the sampling frequency and the list of channels. The status
-%   needs to be non-zero for this to function and requires the use of
-%   EEGLAB toolbox.
+%convertEDFxToMat Convert data and hypnogram EDF files to .mat files
+%   convertEDFxToMat(test_dir, l_off_time) converts the EDF files in the
+%   test_dir to separate Matlab compatible files for each channel of data
+%   and hypnogram. It retrieves the sampling frequency and the list of and
+%   other recording parameters that are saved in the info folder as text
+%   files. The l_off_time is the lights off time for the test. This
+%   function requires the use of EEGLAB toolbox with BioSig plugin.
 
 
 % Check for EEGLAB toolbox (BioSig plugin is needed too! [Hassan])

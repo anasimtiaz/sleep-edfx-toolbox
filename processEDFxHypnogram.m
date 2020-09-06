@@ -3,7 +3,7 @@ function [hypnogram] = processEDFxHypnogram( annotations )
 %   produce a hypnogram in matlab format with a value every 30s.
 %   [hypnogram] = processEDFxHypnogram(annotations) uses the annotations
 %   from the downloaded edf to produce a per-epoch hypnogram with the 
-%   following labels: W, 1, 2, 3, 4, R, M
+%   following labels: W, 1, 2, 3, 4, R, M, ?
 
 
 % Define epoch size

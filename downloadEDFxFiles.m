@@ -1,6 +1,9 @@
 function [saved_file, status] = downloadEDFxFiles( destination_dir, src_dir, mode )
 %downloadEDFxFiles Download EDF files from PhysioNet
-%   [saved_file, status] = downloadEDFxFiles( destination_directory, mode ) downloads data in the destination directory
+%   [saved_file, status] = downloadEDFxFiles( destination_directory, src_dir, mode ) 
+%   downloads data in the destination directory or copies from the source
+%   to the destionation directory. If there is no source directory src_dir
+%   must be passed as ''.
 %   mode='h' or mode='d' will download hypnogram or data files respectively
 %
 % saved_file is a list of all files downloaded and status corresponds to their success/failure

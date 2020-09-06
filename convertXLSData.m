@@ -1,10 +1,15 @@
-function [lights_off_times] = convertXLSData(download_dir)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+function [lights_off_times] = convertXLSData(destination_dir)
+%convertXLSData Download EDF files from PhysioNet
+%   [lights_off_times] = convertXLSData() converts the data from XLS sheets
+%   for the light off times into matlab format
+%   
+% lights_off_times is a dictionary giving the light off time for the test
+% directory e.g. lights_off_times('SC4001')
 
 
-Y_SC = xlsread(fullfile(pwd, download_dir, 'SC-subjects.xls'));
-Y_ST = xlsread(fullfile(pwd, download_dir, 'ST-subjects.xls'));
+
+Y_SC = xlsread(fullfile(pwd, destination_dir, 'SC-subjects.xls'));
+Y_ST = xlsread(fullfile(pwd, destination_dir, 'ST-subjects.xls'));
 
 lights_off_times = containers.Map;
 

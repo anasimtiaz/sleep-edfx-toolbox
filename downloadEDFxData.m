@@ -2,6 +2,7 @@ function [saved_file, status] = downloadEDFxData( varargin )
 %downloadEDFxData Download EDF files from PhysioNet
 %   [saved_file, status] = downloadEDFxData( ) downloads data in the current directory
 %   [saved_file, status] = downloadEDFxData( destination_directory ) downloads data in the destination directory
+%   [saved_file, status] = downloadEDFxData( destination_directory, src_cir ) copies data from the source directory in to the destination directory
 %
 % saved_file is a list of all files downloaded and status corresponds to their success/failure
 
