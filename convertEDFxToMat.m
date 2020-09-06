@@ -118,27 +118,27 @@ fclose(fid);
 
 % Save lights off time on file
 fid = fopen('lights_off_time.txt', 'w');
-fprintf(fid, '%d', lights_off_time);
+fprintf(fid, '%s', lights_off_time);
 fclose(fid);
 
 % Save recording start time on file
 fid = fopen('rec_start_time.txt', 'w');
-fprintf(fid, '%d', rec_start_time);
+fprintf(fid, '%s', rec_start_time);
 fclose(fid);
 
 % Save hypnogram start time on file
 fid = fopen('hyp_start_time.txt', 'w');
-fprintf(fid, '%d', hyp_start_time);
+fprintf(fid, '%s', hyp_start_time);
 fclose(fid);
 
 % Save lights on time on file
 fid = fopen('lights_on_time.txt', 'w');
-fprintf(fid, '%d', lights_on_time);
+fprintf(fid, '%s', lights_on_time);
 fclose(fid);
 
 % Save recording stop time on file
 fid = fopen('rec_stop_time.txt', 'w');
-fprintf(fid, '%d', rec_stop_time);
+fprintf(fid, '%s', rec_stop_time);
 fclose(fid);
 
 % Change back to test directory
