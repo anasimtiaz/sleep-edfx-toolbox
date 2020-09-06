@@ -12,10 +12,6 @@ if exist('sload') ~=2
     error('EEGLAB/BioSig does not exist or not added to search path')
 end
 
-% Check status - needed only if directly passed from downloadEDFxData()
-if status == 0
-    error('This file has not been downloaded correctly - please try downloading again')
-end
 
 % Save the current cirectory and move to the test directory
 init_dir = pwd;
@@ -33,13 +29,13 @@ psg_edf_file_name = dir('*PSG*');
 
 % Load edf file in Matlab - requires BioSig toolbox
 % http://biosig.sourceforge.net/download.html
-[edf, header] = sload(psg_edf_file_name.name);
+[edf_c, header_c] = sload(psg_edf_file_name.name);
 
 fprintf('Converting PSG Data ......\n');
 fprintf('Converting file %s ......\n', psg_edf_file_name.name);
 
 % Extract the channel names and clean the string
-channel_names = header.Label;
+channel_names = header_c.Label;
 number_of_channels = length(channel_names);
 for i=1:number_of_channels
     temp_name = channel_names{i};
@@ -54,20 +50,20 @@ for i=1:number_of_channels
 end
 
 % Extract sampling frequency
-sampling_frequency = header.SampleRate;
+sampling_frequency = header_c.SampleRate;
 
 
 % Get the HYP edf file by checking for extension
 hyp_edf_file_name = dir('*Hyp*');
 
 % Load edf file in Matlab
-[edf, header] = sload(hyp_edf_file_name.name);
+[edf_h, header_h] = sload(hyp_edf_file_name.name);
 
 fprintf('Converting PSG Data ......\n');
 fprintf('Converting file %s ......\n', hyp_edf_file_name.name);
 
 % load annotations
-annotations = convertCharsToStrings(header.EDFplus.ANNONS);
+annotations = convertCharsToStrings(header_h.EDFplus.ANNONS);
 annotations = convertStringsToChars(annotations.split('+'));
 
 % remove first two lines
@@ -77,7 +73,7 @@ annotations(1:2)=[];
 hypnogram = processEDFxHypnogram(annotations);
 
 % get start times
-rec_start_time = convertStringsToChars(num2str(header.T0(4), '%02d') + ":" + num2str(header.T0(5), '%02d') + ":" + num2str(header.T0(6), '%02d'));
+rec_start_time = convertStringsToChars(num2str(header_h.T0(4), '%02d') + ":" + num2str(header_h.T0(5), '%02d') + ":" + num2str(header_h.T0(6), '%02d'));
 
 split_string = split(annotations{1}, ["", "", " "]);
 hyp_offset = str2num(split_string{1});
@@ -153,7 +149,7 @@ old_folder = cd('matlab');
 
 % Segment channels and save separate matlab variables
 for i=1:number_of_channels
-    signal = edf(:,i);
+    signal = edf_c(:,i);
     save(channel_names{i}, 'signal');
 end
 
@@ -165,7 +161,7 @@ cd(old_folder);
 cd(init_dir);
 
 % Conversion complete
-fprintf('Conversion of %s file complete\n\n', edf_file_name.name);
+fprintf('Conversion of %s file complete\n\n', test_dir);
 
 end
 
