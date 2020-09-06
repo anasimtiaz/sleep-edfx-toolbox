@@ -22,6 +22,7 @@ else
     download_dir = pwd;
 end
 
+addpath(pwd);
 
 % Download EDFx Data
 downloadEDFxData(download_dir);
@@ -43,7 +44,7 @@ lights_off_times = convertXLSData(download_dir);
 test_dirs = dir(fullfile(download_dir, '*S*'));
 test_dirs = test_dirs([test_dirs.isdir]);
 for i=1:length(test_dirs)
-    convertEDFxToMat(test_dirs(i).name, lights_off_times(test_dirs(i).name));
+    convertEDFxToMat(fullfile(download_dir, test_dirs(i).name), lights_off_times(test_dirs(i).name));
 end
 
 
